@@ -1,7 +1,7 @@
 from appium import webdriver
 from selenium.webdriver.common.by import By
 
-WAIT_TIME = 5
+WAIT_TIME = 10
 
 capabilities = { 'browserName': 'Chrome', 'automationName': 'UIAutomator2', 'platformName': 'Android', 'platformVersion': '5.1' }
 driver = webdriver.Remote('http://localhost:4723/wd/hub', capabilities)
