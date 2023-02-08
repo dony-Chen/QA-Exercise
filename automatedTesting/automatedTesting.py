@@ -1,26 +1,35 @@
 from appium import webdriver
+from selenium.webdriver.common.by import By
 
+WAIT_TIME = 5
 
 capabilities = { 'browserName': 'Chrome', 'automationName': 'UIAutomator2', 'platformName': 'Android', 'platformVersion': '5.1' }
 driver = webdriver.Remote('http://localhost:4723/wd/hub', capabilities)
 
-i = 1
+
 driver.get('https://www.cathaybk.com.tw/cathaybk/')
-#driver.save_screenshot('login.png')
+driver.implicitly_wait(WAIT_TIME)
 driver.save_screenshot('./images/login/login.png')
-#driver.save_screenshot('login.png')
-driver.implicitly_wait(5)
-i += 1
-driver.find_element_by_class_name('cubre-o-header__burger').click()
-#driver.find_element_by_css_selector(.cubre-o-nav__menu .cubre-o-menu__item:nth-child(1)).click()
-driver.find_element_by_xpath('//div[3]/div/div[2]/div/div/div/div/div').click()
-#driver.find_element_by_class_name('cubre-o-menu__item:nth-child(1)').click().click()
-#driver.find_element_by_class_name('cubre-o-menu__btn').click()
-#driver.find_element_by_class_name('cubre-a-menuSortBtn').click()
-#div = driver.find_element_by_id('i_am_an_id')
+screenshot = 1
 
+driver.find_element(By.CLASS_NAME, 'cubre-o-header__burger').click()
+driver.find_element(By.XPATH, '//div[3]/div/div[2]/div/div/div/div/div').click()
+driver.find_element(By.XPATH,'//div[2]/div/div/div/div[2]/div/div/div/div').click()
+driver.implicitly_wait(WAIT_TIME)
+driver.save_screenshot('./images/creditCard/creditCardList.png')
+screenshot += 1
 
-#driver.find_element_by_id('comments').send_keys('My comment')
+list = driver.find_elements(By.XPATH, "//div[contains(@class,'is-L2open')]//a[contains(@class, 'cubre-a-menuLink')]")
+print("項目數量: %d" %len(list))
+driver.find_element(By.XPATH, "//div[contains(@class,'is-L2open')]//a[contains(.,'卡片介紹')]").click()
 
+cardList = driver.find_elements(By.XPATH, "//section[contains(@data-anchor-block,'blockname06')]//span[contains(@class, 'swiper-pagination-bullet')]")
+for i, card in enumerate(cardList):
+    card.click()
+    driver.implicitly_wait(WAIT_TIME)
+    driver.save_screenshot("./images/creditCard/cardScreenshot/creditCard%d.png" %(i+1))
+    screenshot += 1
+print("卡片數量: %d" %len(cardList))
+print("總截圖數量: %d" %screenshot)
 
 driver.quit()
